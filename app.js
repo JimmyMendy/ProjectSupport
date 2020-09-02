@@ -4,6 +4,10 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import logger from 'morgan';
 import mainRoutes from './server/routes/main';
+import dotenv from 'dotenv';
+
+// Set up dotenv
+require('dotenv').config();
 
 //Set up depencies
 const app = express();
@@ -17,7 +21,7 @@ app.use(logger('dev'));
 
 // set up mongoose
 mongoose.connect(
-  'mongodb+srv://jimmy:Escpau2012@cluster0.pkmq8.mongodb.net/Supportproject?retryWrites=true&w=majority', 
+  process.env.MONGODB, 
   { useNewUrlParser: true, 
     useUnifiedTopology: true
   })
