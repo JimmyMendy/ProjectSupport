@@ -29,7 +29,7 @@ export function createCause(req, res) {
 
 // Get all causes
 export function getAllCause(){
-  Cause.find
+  Cause.find()
     .select('_id title description')
     .then((allCause) => {
       return res.status(200).json({

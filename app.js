@@ -3,21 +3,21 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import logger from 'morgan';
-import mainRoutes from './server/routes/main';
 import dotenv from 'dotenv';
+import homeRoute from './server/routes/index';
+import mainRoutes from './server/routes/main';
 
-// Set up dotenv
-require('dotenv').config();
+
+
 
 //Set up depencies
 const app = express();
 
-// Set up route
-app.use('/api/', mainRoutes);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
+require('dotenv').config();
 
 // set up mongoose
 mongoose.connect(
@@ -35,13 +35,16 @@ mongoose.connect(
 //Set up port number
 const port = 5035;
 
-//Set up home route
-app.get('/', (req, res) => {
+// Set up route
+homeRoute(app);
+app.use('/api/', mainRoutes);
+
+app.get('*', (req, res) => {
   res.status(200).json({
     message: 'Welcome to Project Support',
   });
 });
 
-app.listen(port, () => {
-  console.log(`Our server is live on ${port}.`);
-});
+app.listen(port);
+
+export default app;
